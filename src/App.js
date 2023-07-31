@@ -3,6 +3,7 @@ import TodoInput from "./components/TodoInput";
 import TodoList from "./components/TodoList";
 import axios from 'axios'
 import useTodoContext from "./hooks/use-todo-context";
+import Link from "./components/Link";
 
 function App() {
   
@@ -24,7 +25,8 @@ function App() {
 
   return (
     <>
-      <div className="container d-flex justify-content-center mt-5 pt-5">
+      <Link to={'/anaks1'}>1</Link>
+      <div className="container d-flex justify-content-center mt-5 pt-5 mb-3">
         <div className="col-6 d-flex justify-content-center align-items-center">
           <TodoInput newTodo={newTodo} />
         </div>

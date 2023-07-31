@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useTodoContext from "../hooks/use-todo-context";
 
 function SingleTodo({ todo, i,}) {
@@ -7,7 +7,7 @@ function SingleTodo({ todo, i,}) {
   const [editButtonClicked, seteditButtonClicked] = useState(false);
   const [tickmark, setTickmark] = useState(false)
   const [editInput, setEditInput] = useState(todo.title);
-
+  const divEl = useRef()
   const value = useTodoContext()
 
 
@@ -40,8 +40,23 @@ function SingleTodo({ todo, i,}) {
       textDecoration: tickmark && "line-through",
     },
   };
+
+  useEffect(() => {
+    const handleOuterClick = (e) => {
+      if (!divEl.current.contains(e.target)){
+        seteditButtonClicked(false);
+        setEditInput(todo.title)
+      }
+    }
+    document.addEventListener('click',handleOuterClick,true)
+    return () => {
+      document.removeEventListener('click',handleOuterClick)
+    }
+  },[])
+  
+
   return (
-    <div className="col-5 my-1 p-3 shadow border d-flex justify-content-between">
+    <div ref={divEl} className="col-5 my-1 p-3 shadow border rounded d-flex justify-content-between">
       <div className="d-flex">
         {i + 1}.<input type="checkbox" className="mx-1" onClick={handleClick} />
         {editButtonClicked ? (
@@ -60,12 +75,7 @@ function SingleTodo({ todo, i,}) {
             </>
         ) : (
           <>
-            {/* <button className="btn-sm btn-primary mx-1" onClick={handleEditClick}>Edit</button>
-            <button className="btn-sm btn-primary mx-1" onClick={handleDeleteClick}>Delete</button> */}
-            <i
-              className="mx-2 fa-solid fa-pen-to-square"
-              onClick={handleEditClick}
-            ></i>
+            <i className="mx-2 fa-solid fa-pen-to-square" onClick={handleEditClick}></i>
             <i className="fa-solid fa-trash" onClick={handleDeleteClick}></i>
           </>
         )}

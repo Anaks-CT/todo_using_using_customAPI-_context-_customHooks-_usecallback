@@ -10,7 +10,6 @@ function TodoList() {
         key={item.id}
         todo={item}
         i={i}
-        
       />
     );
   });
